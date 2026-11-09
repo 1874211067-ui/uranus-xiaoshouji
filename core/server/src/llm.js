@@ -652,10 +652,13 @@ async function requestJson(
   const timer = AbortSignal.timeout(timeout);
   const res = await fetch(url, {
     method,
-    headers: headers ?? {
-      ...(body ? { "Content-Type": "application/json" } : {}),
-      ...(key ? { Authorization: `Bearer ${key}` } : {}),
-    },
+    headers: {
+  ...(headers ?? {
+    ...(body ? { "Content-Type": "application/json" } : {}),
+    ...(key ? { Authorization: `Bearer ${key}` } : {}),
+  }),
+  "User-Agent": "Uranus-Phone/1.0",
+},
     body: body ? JSON.stringify(body) : undefined,
     signal: signal ? AbortSignal.any([timer, signal]) : timer,
   });
@@ -709,13 +712,13 @@ async function requestStream(
   const res = await fetch(url, {
     method: "POST",
     headers: {
-      ...(headers ?? {
-        "Content-Type": "application/json",
-        ...(key ? { Authorization: `Bearer ${key}` } : {}),
-      }),
-      // 有些反代靠这个头决定回不回 SSE
-      Accept: "text/event-stream",
-    },
+  ...(headers ?? {
+    "Content-Type": "application/json",
+    ...(key ? { Authorization: `Bearer ${key}` } : {}),
+  }),
+  Accept: "text/event-stream",
+  "User-Agent": "Uranus-Phone/1.0",
+},
     body: JSON.stringify(body),
     signal: signal ? AbortSignal.any([timer, signal]) : timer,
   });
