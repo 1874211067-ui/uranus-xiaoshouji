@@ -2103,3 +2103,5 @@ export async function embedText(endpoint, text, opts = {}) {
   // 有的中转站会把数字发成字符串，这里统一成 number —— 余弦那边要算术运算
   return vector.map((n) => Number(n) || 0);
 }
+
+// trigger deployment
